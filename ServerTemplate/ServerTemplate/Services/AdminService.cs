@@ -41,14 +41,28 @@ namespace ServerTemplate.Services
 
         public List<Customer> GetCustomers()
         {
-
-            return new List<Customer>();
+            try
+            {
+                var result = customerCollection.Find(customer => true).ToList();
+                return result;
+            }
+            catch(Exception e)
+            {
+                return new List<Customer>();
+            }
         }
 
         public Customer GetCustomer(string customerId)
         {
-
-            return new Customer();
+            try
+            {
+                var result = customerCollection.Find(customer => customer.Id == customerId).FirstOrDefault();
+                return result;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public string AddCustomer(DTO_IN_Customer customerData)

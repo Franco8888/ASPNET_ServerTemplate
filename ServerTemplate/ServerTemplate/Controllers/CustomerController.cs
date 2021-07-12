@@ -30,6 +30,10 @@ namespace ServerTemplate.Controllers
         public IActionResult GetCustomers()
         {
             var result = _adminService.GetCustomers();
+            if(result.Count == 0)
+            {
+                return NotFound();
+            }
 
             return Ok(result);
         }
@@ -39,9 +43,14 @@ namespace ServerTemplate.Controllers
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
         [HttpGet("customer/{customerId}")]
-        public IActionResult GetCustomers(string customerId)
+        public IActionResult GetCustomer(string customerId)
         {
-            return Ok();
+            var result = _adminService.GetCustomer(customerId);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
