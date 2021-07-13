@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 using ServerTemplate.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 // This service handles getting the DB and storing DB collection names used in other services
 namespace ServerTemplate.Services

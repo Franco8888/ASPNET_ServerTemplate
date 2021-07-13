@@ -1,10 +1,10 @@
 ﻿using MongoDB.Driver;
 using ServerTemplate.Models;
 using System;
+using MongoDB.Bson;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using static ServerTemplate.Services.AdminService;
 
 namespace ServerTemplate.Services
@@ -14,6 +14,9 @@ namespace ServerTemplate.Services
         List<Customer> GetCustomers();
         Customer GetCustomer(string customerId);
         string AddCustomer(DTO_IN_Customer customerData);
+        string AddCustomers(List<DTO_IN_Customer> customersData);
+        string UpdateCustomer(string customerId, DTO_IN_Customer update);
+        string DeleteCustomer(string customerId);
     }
 
     public class AdminService: IAdminService
@@ -85,6 +88,70 @@ namespace ServerTemplate.Services
             }
 
         }
+
+        public string AddCustomers(List<DTO_IN_Customer> customersData)
+        {
+            var customers = new List<Customer>();
+
+            foreach (var customer in customersData)
+            {
+                customers.Add(new Customer
+                {
+                    Name = customer.Name,
+                    Email = customer.Email,
+                    TelephoneNumber = customer.TelephoneNumber
+                });
+            }
+
+            IEnumerable<Customer> customerIE = customers;
+
+            try
+            {
+                customerCollection.InsertMany(customerIE);
+                return "Successfully inserted customer";
+            }
+            catch(Exception e)
+            {
+                return $"Failed to insert customers. Reason: {e}";
+            }
+        }
+
+
+        public string UpdateCustomer(string customerId, DTO_IN_Customer update)
+        {
+
+            var customerUpdateDefinition = Builders<Customer>.Update
+                .Set(c => c.Name, update.Name)
+                .Set(c => c.Email , update.Email)
+                .Set(c => c.TelephoneNumber, update.TelephoneNumber);
+
+            try
+            {
+                //customerCollection.FindOneAndUpdate();
+                customerCollection.UpdateOne<Customer>(customer => customer.Id == customerId, customerUpdateDefinition);
+                return "Successfully updated Customer";
+            }
+            catch(Exception e)
+            {
+                return $"Error updating Customer. Message: {e}";
+            }
+
+        }
+        
+        public string DeleteCustomer(string customerId)
+        {
+            try
+            {
+                customerCollection.DeleteOne<Customer>(customer => customer.Id == customerId);
+                return "Successfully deleted Customer";
+            }
+            catch(Exception e)
+            {
+                return $"Error deleting Customer. Message: {e}";
+            }
+        }
+
+        
 
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //

@@ -54,13 +54,49 @@ namespace ServerTemplate.Controllers
         }
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-        // POST addCustomer
+        // POST customer/addCustomer
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
-        [HttpPost("addCustomer")]
+        [HttpPost("customer/addCustomer")]
         public IActionResult AddCustomer([FromBody] DTO_IN_Customer customerData)
         {
             var result = _adminService.AddCustomer(customerData);
+
+            return Ok(result);
+        }
+        
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+        // POST addCustomers
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+        [HttpPost("addCustomers")]
+        public IActionResult AddCustomers([FromBody] List<DTO_IN_Customer> customersData)
+        {
+            var result = _adminService.AddCustomers(customersData);
+
+            return Ok(result);
+        }
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+        // POST customer/{customerId}/update
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+        [HttpPost("customer/{customerId}/update")]
+        public IActionResult UpdateCustomer(string customerId, [FromBody] DTO_IN_Customer customerData)
+        {
+            var result = _adminService.UpdateCustomer(customerId, customerData);
+
+            return Ok(result);
+        }
+        
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+        // Get customer/{customerId}/update
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+
+        [HttpGet("customer/{customerId}/delete")]
+        public IActionResult DeleteCustomer(string customerId)
+        {
+            var result = _adminService.DeleteCustomer(customerId);
 
             return Ok(result);
         }
