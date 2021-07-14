@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using static ServerTemplate.Services.AdminService;
+using Microsoft.Extensions.Configuration;
 
 namespace ServerTemplate.Services
 {
@@ -38,6 +39,7 @@ namespace ServerTemplate.Services
             db = _databaseService.Database; //now db represents our db and we can use it in here
             customerCollection = _databaseService.CustomerCollection;
             wineProductCollection = _databaseService.WineProductCollection;
+
         }
 
         // ===============================================================================================
@@ -108,7 +110,7 @@ namespace ServerTemplate.Services
             try
             {
                 customerCollection.InsertMany(customerIE);
-                return "Successfully inserted customer";
+                return "Successfully inserted customers";
             }
             catch(Exception e)
             {
