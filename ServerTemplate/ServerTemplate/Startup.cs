@@ -35,9 +35,8 @@ namespace ServerTemplate
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerTemplate", Version = "v1" });
             });
 
-            // Add services using Singleton
-            services.AddSingleton<IAdminService, AdminService>();
-            services.AddSingleton<IDatabaseService, DatabaseService>();
+            // Add services usign the ServiceSetup service
+            ServicesSetup.SetupServices(services); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
